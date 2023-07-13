@@ -1,0 +1,15 @@
+
+path: /media/sayan/hdd1/CV/yolov8_training/dataset # dataset root dir
+train: images/training  # train images (relative to 'path') 128 images
+val: images/validation  # val images (relative to 'path') 128 images
+test:  images/validation
+
+nc: 4
+
+# Classes
+names:
+  0: paragraph
+  1: text_box
+  2: image
+  3: table
+
