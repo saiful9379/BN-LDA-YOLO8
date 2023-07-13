@@ -1,0 +1,24 @@
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Model checkpoints and saved weights
+
+# Logs and metrics
+*.log
+*.csv
+*tfevent*
+
+# IDE or editor-specific files
+.vscode/
+.idea/
+*.iml
+*.ipynb_checkpoints/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Miscellaneous
+*.bak
+*.swp
