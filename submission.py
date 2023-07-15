@@ -42,11 +42,23 @@ def resize_mask(mask, img_dim):
     return mask
 
 
+def get_processed_mask(pred_class, masks, img_dim):
+    H, W = img_dim
+
+    processed_mask = {str(i): np.zeros((img_dim)) for i in range(0, 4)}
+    print(pred_class)
+    for cls_, mask in zip(pred_class, masks):
+        processed_mask[str(int(cls_))] += resize_mask(mask, [H, W])
+
+    for k, mask in processed_mask.items():
+        processed_mask[k][processed_mask[k] > 0] = 1
+
+    return processed_mask
+
+
 def masks_processing(mask, img_dim):
     mask = resize_mask(mask, img_dim)
-    contours, _ = cv2.findContours(
-        mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE
-    )
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
     largest_contour = max(contours, key=cv2.contourArea)
     contour_points = largest_contour.reshape(-1, 2)
     contour_points = contour_points.reshape((-1, 1, 2))
@@ -91,10 +103,11 @@ def prediction(model, img, file_name="unkown.jpg", output_dir="logs"):
             polyon_coordinates = []
 
         conf, bbox_xyxy, pred_classes = get_bbox_processing(result)
+        processed_mask = get_processed_mask(pred_classes, masks, [H, W])
         prediction_data["rle_mask"] = "\n".join(
             [
-                f"{file_name[:-4]}_{str(int(cls))}, {rle_encode(resize_mask(mask, [H, W]))}"
-                for cls, mask in zip(pred_classes, masks)
+                f"{ID[file_name]}_{str(int(cls))}, {rle_encode(mask)}"
+                for cls, mask in processed_mask.items()
             ]
         )
         prediction_data["polygons"].extend(polyon_coordinates)
@@ -112,27 +125,30 @@ def prediction(model, img, file_name="unkown.jpg", output_dir="logs"):
 
 if __name__ == "__main__":
     from tqdm import tqdm
+    import json
 
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     DEBUG = True
     MODEL_PATH = "./runs/best.pt"
     IMAGE_PATH = "./image/"
     LOG_DIR = "logs2"
+    JSON_ID_FILE = "badlad-test-metadata.json"
 
     os.makedirs(LOG_DIR, exist_ok=True)
     files = glob.glob(IMAGE_PATH + "/*")
     model = load_yolov8_model(MODEL_PATH)
+    ID = json.load(open(JSON_ID_FILE, 'r'))['images']
+    ID = {info['file_name']: info['id'] for info in ID}
 
-    
     with open(f"{LOG_DIR}/submission.csv", "w") as f:
         for i in tqdm(range(len(files))):
             _file = files[i]
             img = cv2.imread(_file)
             file_name = os.path.basename(_file)
             prediction_data = prediction(
-                model,
-                img,
-                file_name=file_name,
-                output_dir=LOG_DIR
+                model, img, file_name=file_name, output_dir=LOG_DIR
             )
-            f.write(prediction_data["rle_mask"])
+            if i:
+                f.write('\n'+prediction_data["rle_mask"])
+            else:
+                f.write(prediction_data["rle_mask"])
