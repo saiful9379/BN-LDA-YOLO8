@@ -46,7 +46,6 @@ def get_processed_mask(pred_class, masks, img_dim):
     H, W = img_dim
 
     processed_mask = {str(i): np.zeros((img_dim)) for i in range(0, 4)}
-    print(pred_class)
     for cls_, mask in zip(pred_class, masks):
         processed_mask[str(int(cls_))] += resize_mask(mask, [H, W])
 
@@ -100,13 +99,14 @@ def prediction(model, img, file_name="unkown.jpg", output_dir="logs"):
             masks = result.masks.data
             polyon_coordinates = get_polygon_of_masks(masks, img_dim=[H, W])
         except:
+            masks = []
             polyon_coordinates = []
 
         conf, bbox_xyxy, pred_classes = get_bbox_processing(result)
         processed_mask = get_processed_mask(pred_classes, masks, [H, W])
         prediction_data["rle_mask"] = "\n".join(
             [
-                f"{ID[file_name]}_{str(int(cls))}, {rle_encode(mask)}"
+                f"{ID[file_name]}_{str(int(cls))},{rle_encode(mask)}"
                 for cls, mask in processed_mask.items()
             ]
         )
@@ -128,27 +128,35 @@ if __name__ == "__main__":
     import json
 
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    DEBUG = True
+    DEBUG = False
     MODEL_PATH = "./runs/best.pt"
-    IMAGE_PATH = "./image/"
+    IMAGE_PATH = "/mnt/JaHiD/Zahid/DataSet/test/"
     LOG_DIR = "logs2"
     JSON_ID_FILE = "badlad-test-metadata.json"
 
-    os.makedirs(LOG_DIR, exist_ok=True)
-    files = glob.glob(IMAGE_PATH + "/*")
-    model = load_yolov8_model(MODEL_PATH)
-    ID = json.load(open(JSON_ID_FILE, 'r'))['images']
-    ID = {info['file_name']: info['id'] for info in ID}
 
-    with open(f"{LOG_DIR}/submission.csv", "w") as f:
+    os.makedirs(LOG_DIR, exist_ok=True)
+    files = glob.glob(IMAGE_PATH + "/*")[:]
+    model = load_yolov8_model(MODEL_PATH)
+    ID = json.load(open(JSON_ID_FILE, "r"))["images"]
+    ID = {info["file_name"]: info["id"] for info in ID}
+
+    # errors = open('error_log.txt', 'r').readlines()
+    # errors = [e.split('\t')[0].strip() for e in errors if "local variable 'masks'" in e]
+
+    with open(f"{LOG_DIR}/submission.csv", "a") as f:
+        f.write("Id, Predicted")
         for i in tqdm(range(len(files))):
-            _file = files[i]
-            img = cv2.imread(_file)
-            file_name = os.path.basename(_file)
-            prediction_data = prediction(
-                model, img, file_name=file_name, output_dir=LOG_DIR
-            )
-            if i:
-                f.write('\n'+prediction_data["rle_mask"])
-            else:
-                f.write(prediction_data["rle_mask"])
+            try:
+                _file = files[i]
+                file_name = os.path.basename(_file)
+                # if file_name not in errors:
+                #     continue
+                img = cv2.imread(_file)
+                prediction_data = prediction(
+                    model, img, file_name=file_name, output_dir=LOG_DIR
+                )
+                print(prediction_data["rle_mask"])
+                f.write("\n" + prediction_data["rle_mask"])
+            except Exception as e:
+                print(f"{file_name}\t{e}")
