@@ -60,6 +60,7 @@ def prediction(
         # print(result)
         try:
             masks = result.masks.data
+            # print(masks)
             polyon_coordinates = get_polygon_of_masks(masks, img_dim=[H, W])
         except:
             polyon_coordinates = []

@@ -87,25 +87,31 @@ def prediction(model, img, file_name="unkown.jpg", output_dir="logs"):
         try:
             masks = result.masks.data
             polyon_coordinates = get_polygon_of_masks(masks, img_dim=[H, W])
+        # except:
+        #     polyon_coordinates = []
+            # continue
+            # masks =  result.masks.data
+
+            conf, bbox_xyxy, pred_classes = get_bbox_processing(result)
+            prediction_data["rle_mask"] = "\n".join(
+                [
+                    f"{file_name[:-4]}_{str(int(cls))}, {rle_encode(resize_mask(mask, [H, W]))}"
+                    for cls, mask in zip(pred_classes, masks)
+                ]
+            )
+            prediction_data["polygons"].extend(polyon_coordinates)
+            prediction_data["bboxs"].extend(bbox_xyxy),
+            prediction_data["class"].extend(pred_classes)
+            prediction_data["confidence"].extend(conf)
+
+            if DEBUG:
+                img = draw_mask(img, prediction_data["polygons"], prediction_data["class"])
+                img = draw_bbox(img, prediction_data)
+                cv2.imwrite(os.path.join(output_dir, file_name), img)
         except:
-            polyon_coordinates = []
 
-        conf, bbox_xyxy, pred_classes = get_bbox_processing(result)
-        prediction_data["rle_mask"] = "\n".join(
-            [
-                f"{file_name[:-4]}_{str(int(cls))}, {rle_encode(resize_mask(mask, [H, W]))}"
-                for cls, mask in zip(pred_classes, masks)
-            ]
-        )
-        prediction_data["polygons"].extend(polyon_coordinates)
-        prediction_data["bboxs"].extend(bbox_xyxy),
-        prediction_data["class"].extend(pred_classes)
-        prediction_data["confidence"].extend(conf)
+            print("Prolematic Images : ", file_name)
 
-    if DEBUG:
-        img = draw_mask(img, prediction_data["polygons"], prediction_data["class"])
-        img = draw_bbox(img, prediction_data)
-        cv2.imwrite(os.path.join(output_dir, file_name), img)
 
     return prediction_data
 
@@ -116,23 +122,28 @@ if __name__ == "__main__":
     DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     DEBUG = True
     MODEL_PATH = "./runs/best.pt"
-    IMAGE_PATH = "./image/"
-    LOG_DIR = "logs2"
+    IMAGE_PATH = "/media/sayan/hdd1/CV/bangla_layout_understanding/badlad/images/test"
+    LOG_DIR = "logs"
 
     os.makedirs(LOG_DIR, exist_ok=True)
     files = glob.glob(IMAGE_PATH + "/*")
     model = load_yolov8_model(MODEL_PATH)
 
     
-    with open(f"{LOG_DIR}/submission.csv", "w") as f:
+    with open(f"submission.csv", "w") as f:
         for i in tqdm(range(len(files))):
-            _file = files[i]
-            img = cv2.imread(_file)
-            file_name = os.path.basename(_file)
-            prediction_data = prediction(
-                model,
-                img,
-                file_name=file_name,
-                output_dir=LOG_DIR
-            )
-            f.write(prediction_data["rle_mask"])
+            try:
+                _file = files[i]
+                img = cv2.imread(_file)
+                file_name = os.path.basename(_file)
+                
+                prediction_data = prediction(
+                    model,
+                    img,
+                    file_name=file_name,
+                    output_dir=LOG_DIR
+                )
+                if prediction_data["rle_mask"]:
+                    f.write(prediction_data["rle_mask"])
+            except:
+                continue
