@@ -145,7 +145,7 @@ if __name__ == "__main__":
     # errors = [e.split('\t')[0].strip() for e in errors if "local variable 'masks'" in e]
 
     with open(f"{LOG_DIR}/submission.csv", "a") as f:
-        f.write("Id, Predicted")
+        f.write("Id,Predicted")
         for i in tqdm(range(len(files))):
             try:
                 _file = files[i]
