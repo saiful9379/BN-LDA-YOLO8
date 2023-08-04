@@ -1,5 +1,6 @@
 # BN-LDA-YOLO8
-![](image/Untitled Diagram.drawio.png)
+![](./image/Untitled Diagram.drawio.png)
+
 Bangla Layout Document Analysis Model[Yolov8], I examine the YOLOv8 & its features, learn how to prepare custom datasets for the model, and build a YOLOv8 demo from scratch using the custom-generated Bangla Layout Document Analysis Dataset. the 4 classes of the dataset that are "text_box", "table", "paragraph", image etc.
 So Here we train the detection model using the dlsprint2 dataset and try to leverage high performance for detection of the of Bangla Layout Document. Here we use around 20223 data for building this model.
 
