@@ -59,25 +59,25 @@ class_index Norimalize of [x1,y1, x2, y2]
 
 ```
 # Traning Configuration
+Check data/
 
+path: /media/sayan/hdd1/CV/yolov8_training/dataset # dataset root dir
+train: images/training  # train images (relative to 'path') 128 images
+val: images/validation  # val images (relative to 'path') 128 images
+test:  images/validation
 
-
-check ```cfg/training/yolov7.yaml```
-```python
-# set number of class 
-nc: 21  # number of classes
-```
-check ```data/coco.yaml```
-```python
-train: ./dataset/training.txt  # 118287 images
-val: ./dataset/validation.txt  # 5000 images
-
-# number of classes
 nc: 4
 
-names : []
+# Classes
+names:
+  0: paragraph
+  1: text_box
+  2: image
+  3: table
 
 ```
+
+
 # Training 
 
 
