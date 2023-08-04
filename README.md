@@ -5,7 +5,6 @@ So Here we train the detection model using the dlsprint2 dataset and try to leve
 ## Installation
 Tested with: Python 3.8 Pytorch 1.12.0+cu113
 ```
-pip install torch==1.11.0+cu113 torchvision==0.12.0+cu113 -f https://download.pytorch.org/whl/torch_stable.html
 Pip install -r requirements.txt
 ```
 
