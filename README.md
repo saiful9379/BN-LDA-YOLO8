@@ -59,8 +59,10 @@ class_index Norimalize of [x1,y1, x2, y2]
 
 ```
 # Traning Configuration
-Check data/
 
+Check Config file into ```data``` folder,
+
+```
 path: /media/sayan/hdd1/CV/yolov8_training/dataset # dataset root dir
 train: images/training  # train images (relative to 'path') 128 images
 val: images/validation  # val images (relative to 'path') 128 images
