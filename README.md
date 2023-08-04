@@ -80,7 +80,9 @@ names:
 ```
 
 
-# Training 
+# Training
+
+Check the internal configuration of ```train.py``` script and run ```train.py```
 
 
 ## Transfer learning
