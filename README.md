@@ -94,7 +94,7 @@ Check the internal configuration of ```train.py``` script and run ```train.py```
 
 ## Testing
 ```
-
+sementics segmentation mAP: 0.88356
 ```
 ## Reference
 ```
