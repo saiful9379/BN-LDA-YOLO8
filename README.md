@@ -96,13 +96,7 @@ Check the internal configuration of ```train.py``` script and run ```train.py```
 ```
 
 ```
+## Reference
+```
 
-## Official git repo
-
-git repo : [click](https://github.com/WongKinYiu/yolov7)
-
-Thanks ```WongKinYiu``` for giving amazing git repo
-
-## Acknowledgements
-
-<details><summary> <b>Expand</b> </summary>
+```
