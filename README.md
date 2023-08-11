@@ -85,16 +85,17 @@ names:
 
 Check the internal configuration of ```train.py``` script and run ```train.py```
 
-
-## Transfer learning
-
-## Evaluation
-
-
 ## Inference
+
+```
+
+```
 
 
 ## Testing
+```
+
+```
 
 ## Official git repo
 
