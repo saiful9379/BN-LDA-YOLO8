@@ -100,6 +100,6 @@ Make sure the model and data path and run ```inference.py```
 sementics segmentation mAP: 0.88356
 ```
 ## Reference
-1. https://docs.ultralytics.com
 
-2.https://www.kaggle.com/competitions/dlsprint2?rvi=1
+1. https://docs.ultralytics.com
+2. https://www.kaggle.com/competitions/dlsprint2?rvi=1
