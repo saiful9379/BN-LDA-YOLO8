@@ -10,13 +10,13 @@ Tested with: Python 3.8 Pytorch 1.12.0+cu113
 Pip install -r requirements.txt
 ```
 
-# Dataset
+## Dataset
 
 The dataset for this competition comprises about 34,000 Bengali documents annotated using polygon boundaries and rectangular bounding boxes. These documents range from newspaper articles, official documents, notices, and government gadgets to novels, comics, magazines, and even liberation war records.
 
 Paper Link [Click](https://arxiv.org/abs/2303.05325)
 
-# Data Processing
+## Data Processing
 
 Please check the data processing repo [click](https://github.com/ultralytics/JSON2YOLO) script is ```general_json2yolo.py```
 
@@ -65,7 +65,7 @@ class_index Norimalize of [x1,y1, x2, y2]
       7     0.799583 0.424375 0.0975 0.13875
 
 ```
-# Traning Configuration
+## Traning Configuration
 
 Check Config file into ```data``` folder,
 
@@ -87,7 +87,7 @@ names:
 ```
 
 
-# Training
+## Training
 
 Check the internal configuration of ```train.py``` script and run ```train.py```
 
