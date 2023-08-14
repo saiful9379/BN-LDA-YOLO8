@@ -10,6 +10,12 @@ Tested with: Python 3.8 Pytorch 1.12.0+cu113
 Pip install -r requirements.txt
 ```
 
+# Dataset
+
+The dataset for this competition comprises about 34,000 Bengali documents annotated using polygon boundaries and rectangular bounding boxes. These documents range from newspaper articles, official documents, notices, and government gadgets to novels, comics, magazines, and even liberation war records.
+
+Paper Link [Click](https://arxiv.org/abs/2303.05325)
+
 # Data Processing
 
 Please check the data processing repo [click](https://github.com/ultralytics/JSON2YOLO) script is ```general_json2yolo.py```
@@ -94,6 +100,6 @@ Make sure the model and data path and run ```inference.py```
 sementics segmentation mAP: 0.88356
 ```
 ## Reference
-```
+1. https://docs.ultralytics.com
 
-```
+2.https://www.kaggle.com/competitions/dlsprint2?rvi=1
