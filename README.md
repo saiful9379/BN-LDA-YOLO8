@@ -87,10 +87,7 @@ Check the internal configuration of ```train.py``` script and run ```train.py```
 
 ## Inference
 
-```
-
-```
-
+Make sure the model and data path and run ```inference.py```
 
 ## Testing
 ```
