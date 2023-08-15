@@ -1,8 +1,7 @@
 # BN-LDA-YOLO8
 ![](image/figure.png)
 
-Bangla Layout Document Analysis Model[Yolov8], This repo show that YOLOv8 customizable ultralytics module for custom data training and build a YOLOv8 demo from scratch using the custom-generated Bangla Layout Document Analysis Dataset. the 4 classes of the dataset that are "text_box", "table", "paragraph", image etc.
-So Here we train the detection model using the dlsprint2 dataset and try to leverage high performance for detection of the of Bangla Layout Document. Here we use around 20223 data for building this model.
+Bangla Layout Document Analysis Model[Yolov8], This repo shows the YOLOv8 customizable ultralytics module for custom data training and building a YOLOv8 demo from scratch using the custom-generated Bangla Layout Document Analysis Dataset. the 4 classes of the dataset are "text_box", "table", "paragraph", image etc. So Here we train the detection model using the dlsprint2 dataset and try to leverage high performance for the detection of the of Bangla Layout Document. Here we use around 20223 data for building this model.
 
 ## Installation
 Tested with: Python 3.8 Pytorch 1.12.0+cu113
