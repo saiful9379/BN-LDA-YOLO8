@@ -24,7 +24,7 @@ Traning Data structure,
 dataset
 ├── annotations
 │   ├── training.json
-│   └── valivation.json
+│   └── validation.json
 ├── images
 │   ├── training
 │   │    ├── 01.jpg
@@ -36,7 +36,7 @@ dataset
 │   ├── training
 │   │   ├── 01.txt
 │   │   └── 02.txt
-│   └── valivation
+│   └── validation
 │   │   ├── 03.jpg
 │   │   └── 04.jpg
 ├── training.txt
